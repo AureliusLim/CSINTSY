@@ -2,7 +2,6 @@ package base;
 
 import java.util.*;
 import java.lang.Math;
-
 public class GameManager
 {
     private ArrayList<Tiles> tiles;
@@ -131,6 +130,12 @@ public class GameManager
         }
         return null;
     }
+   public ArrayList<Tiles> getTile(){
+        return this.tiles;
+   }
+   public Player getPlayer(){
+        return this.player;
+   }
 
     public void drawBoard()
     {
