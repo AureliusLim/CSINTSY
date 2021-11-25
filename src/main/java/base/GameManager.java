@@ -136,7 +136,9 @@ public class GameManager
    public Player getPlayer(){
         return this.player;
    }
-
+    public Generate getGenerate(){
+        return this.generate;
+    }
     public void drawBoard()
     {
         System.out.println();
@@ -181,21 +183,21 @@ public class GameManager
             randomTree.decision("Move", this.n);
             //if(this.player.getX()>=0 && this.player.getX()<=this.n && this.player.getY()>=0   && this.player.getY()<=this.n)
             System.out.printf("Move\n");
-            System.out.printf("New pos = %d, %d",this.player.getX(),this.player.getY());
+            //System.out.printf("New pos = %d, %d",this.player.getX(),this.player.getY());
 
         }
 
         if(r==2)    //rotate
         {
             randomTree.decision("Rotate", this.n);
-            System.out.printf("Rotated direction = %d",this.player.getDirection());
+            System.out.printf("\nRotated direction = %d",this.player.getDirection());
 
         }
 
         if(r==3)    //scan
         {
             randomTree.decision("Scan", this.n);
-            System.out.printf("Scan = %s",this.player.scan(n, this));
+            //System.out.printf("Scan = %s",this.player.scan(n, this));
 
         }
 
