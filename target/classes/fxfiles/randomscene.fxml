@@ -32,5 +32,15 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
+      <Text layoutX="55.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Moves: ">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="moves" layoutX="107.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

@@ -16,6 +16,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class randscene {
     AnchorPane anchor;
     @FXML
     GridPane grid;
+    @FXML
+    Text moves;
     public void switchTomain(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -51,7 +54,7 @@ public class randscene {
         Player player = g.getPlayer();
         //GridPane grid = new GridPane();
 
-
+        System.out.println("GOLDPOS:"+g.getGenerate().getGold().getX() + " " + g.getGenerate().getGold().getY());
         grid.setGridLinesVisible(true);
         grid.setPrefHeight(500);
         grid.setPrefWidth(500);
@@ -74,8 +77,6 @@ public class randscene {
         goldimage.setFitHeight(50);
         goldimage.setFitWidth(50);
 
-//        RowConstraints rc = new RowConstraints(50);
-//        ColumnConstraints cc = new ColumnConstraints(50);
         while(grid.getRowConstraints().size() > 0){
             grid.getRowConstraints().remove(0);
         }
@@ -83,19 +84,13 @@ public class randscene {
         while(grid.getColumnConstraints().size() > 0){
             grid.getColumnConstraints().remove(0);
         }
-//        for (int i = 0; i < size; i++) {
-//            grid.getRowConstraints().add(rc);
-//        }
-//        for (int i = 0; i < size; i++) {
-//            grid.getColumnConstraints().add(cc);
-//        }
 
 
         for (int rows = 0; rows < size; rows++) {
             for (int cols = 0; cols < size; cols++) {
                 for (int i = 0; i < tiles.size(); i++) {
                     if (rows == player.getX() && cols == player.getY()) {
-                        grid.add(minerimage, rows, cols);
+                        grid.add(minerimage, cols,rows);
                         this.minerimage = minerimage;
                         break;
                     } else if (tiles.get(i).getX() == rows && tiles.get(i).getY() == cols) {
@@ -103,19 +98,19 @@ public class randscene {
                             ImageView beaconimage = new ImageView(beacon);
                             beaconimage.setFitWidth(50);
                             beaconimage.setFitHeight(50);
-                            grid.add(beaconimage, rows, cols);
+                            grid.add(beaconimage, cols,rows);
                         } else if (tiles.get(i).getIcon() == "G") {
-                            grid.add(goldimage, rows, cols);
+                            grid.add(goldimage, cols,rows);
                         } else if (tiles.get(i).getIcon() == "P") {
                             ImageView pitimage = new ImageView(pit);
                             pitimage.setFitHeight(50);
                             pitimage.setFitWidth(50);
-                            grid.add(pitimage, rows, cols);
+                            grid.add(pitimage, cols,rows);
                         } else if (tiles.get(i).getIcon() == "-") {
                             ImageView grassimage = new ImageView(grass);
                             grassimage.setFitHeight(50);
                             grassimage.setFitWidth(50);
-                            grid.add(grassimage, rows, cols);
+                            grid.add(grassimage, cols,rows);
                             break;
                         }
 
@@ -132,35 +127,6 @@ public class randscene {
         AnimationTimer timer = new TimerMethod();
         timer.start();
 
-//        do
-//        {
-//            g.random();
-//            grid.getChildren().remove(minerimage);
-//            grid.add(minerimage,g.getPlayer().getX(), g.getPlayer().getY());
-//
-//
-//            x = g.SpecialTile();
-//
-//            if(x==3)
-//            {
-//                for(i=0;i<g.getGenerate().getBeacons().size();i++)
-//                {       //beacon
-//                    if(g.getGenerate().getBeacons().get(i).getX() == g.getPlayer().getX() &&g.getGenerate().getBeacons().get(i).getY()==g.getPlayer().getY())
-//                    {
-//                        System.out.printf("Distance from G = %d", g.getGenerate().getBeacons().get(i).Distance(g.getGenerate().getGold(),g.getGenerate().getPits()));
-//                    }
-//                }
-//            }
-//
-
-//        }while(x!=1 && x!=2);
-//
-//        if (x == 1){
-//            System.out.println("LOSE");
-//        }
-//        else{
-//            System.out.println("WIN");
-//        }
 
     }
     private class TimerMethod extends AnimationTimer {
@@ -174,6 +140,7 @@ public class randscene {
         private void handlee() {
             int x = 0, i;
             int original;
+            String before;
             original = g.getPlayer().getDirection();
             g.random();
             int newdirect;
@@ -190,17 +157,20 @@ public class randscene {
             if(newdirect == 4){
                 minerimage.setRotate(0);
             }
+            //minerimage.setRotate(90);
             try {
-                Thread.sleep(2000);
+                Thread.sleep(100);
             } catch (InterruptedException ex) {
                 // TODO Auto-generated catch block
                 ex.printStackTrace();
             }
             grid.getChildren().remove(minerimage);
-            grid.add(minerimage,g.getPlayer().getX(), g.getPlayer().getY());
+            grid.add(minerimage,g.getPlayer().getY(), g.getPlayer().getX());
+            before = moves.getText();
+            moves.setText(Integer.toString((Integer.parseInt(before) + 1)));
             x = g.SpecialTile();
 
-            if(x==3)
+            if(x==1)
             {
                 for(i=0;i<g.getGenerate().getBeacons().size();i++)
                 {       //beacon
@@ -211,7 +181,7 @@ public class randscene {
                 }
             }
 
-            if (x == 1)
+            if (x == 3)
             {
                 stop();
 
