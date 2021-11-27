@@ -32,15 +32,39 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <Text layoutX="55.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Moves: ">
+      <Text layoutX="14.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Moves: ">
          <font>
             <Font name="Bookman Old Style" size="14.0" />
          </font>
       </Text>
-      <Text fx:id="moves" layoutX="107.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+      <Text fx:id="moves" layoutX="66.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
          <font>
             <Font name="Bookman Old Style" size="14.0" />
          </font>
       </Text>
+      <Text layoutX="96.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scans:">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="185.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rotates:">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="scans" layoutX="154.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="rotates" layoutX="250.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="14.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mode:" />
+      <Text fx:id="modes" layoutX="53.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="33.75" />
+      <Button layoutX="98.0" layoutY="86.0" mnemonicParsing="false" onAction="#slowDown" text="Slow" />
+      <Button layoutX="166.0" layoutY="86.0" mnemonicParsing="false" onAction="#speedUp" text="Fast" />
    </children>
 </AnchorPane>

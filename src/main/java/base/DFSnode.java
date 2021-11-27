@@ -62,9 +62,12 @@ public class DFSnode      //stack
       if(this.goalState.get(i) == top.getState())
       return true;
     }
-    
-    
     return false;
   }
-
+  public LinkedList<Node> getNodes(){
+    return this.node;
+  }
+  public Node getTop() {
+    return this.top;
+  }
 }

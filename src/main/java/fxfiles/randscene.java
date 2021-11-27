@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.controlsfx.control.action.Action;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +37,12 @@ public class randscene {
     GridPane grid;
     @FXML
     Text moves;
+    @FXML
+    Text rotates;
+    @FXML
+    Text scans;
+    @FXML
+    Text modes;
     public void switchTomain(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -121,13 +128,21 @@ public class randscene {
             }
         }
         grid.setAlignment(Pos.BASELINE_LEFT);
-
+        if (!modes.getText().equals("Slow") && !modes.getText().equals("Fast")){
+            modes.setText("Slow");
+        }
 
         int x=0,i;
         AnimationTimer timer = new TimerMethod();
         timer.start();
 
 
+    }
+    public void slowDown(ActionEvent event){
+        modes.setText("Slow");
+    }
+    public void speedUp(ActionEvent event){
+        modes.setText("Fast");
     }
     private class TimerMethod extends AnimationTimer {
         //define the handle method
@@ -158,16 +173,38 @@ public class randscene {
                 minerimage.setRotate(0);
             }
             //minerimage.setRotate(90);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
+            if (modes.getText().equals("Slow")){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    // TODO Auto-generated catch block
+                    ex.printStackTrace();
+                }
             }
+            else if (modes.getText().equals("Fast")){
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    // TODO Auto-generated catch block
+                    ex.printStackTrace();
+                }
+            }
+
             grid.getChildren().remove(minerimage);
             grid.add(minerimage,g.getPlayer().getY(), g.getPlayer().getX());
-            before = moves.getText();
-            moves.setText(Integer.toString((Integer.parseInt(before) + 1)));
+            if (g.getrandTree().getTop().getAction().equals("Move")){
+                before = moves.getText();
+                moves.setText(Integer.toString(Integer.parseInt(before)+ 1));
+            }
+            else if (g.getrandTree().getTop().getAction().equals("Rotate")){
+                before = rotates.getText();
+                rotates.setText(Integer.toString(Integer.parseInt(before)+ 1));
+            }
+            else if (g.getrandTree().getTop().getAction().equals("Scan")){
+                before = scans.getText();
+                scans.setText(Integer.toString(Integer.parseInt(before)+ 1));
+            }
+
             x = g.SpecialTile();
 
             if(x==1)

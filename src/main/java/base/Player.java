@@ -7,7 +7,7 @@ public class Player{
   
   public Player (int x, int y)
   {
-    this.x = x; this.y = y;this.direction = 1;
+    this.direction = 1;
   } 
 
                   //is direction needed?
