@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -58,13 +59,21 @@
             <Font name="Bookman Old Style" size="14.0" />
          </font>
       </Text>
-      <GridPane fx:id="grid" layoutX="210.0" layoutY="149.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-      </GridPane>
+      <ScrollPane fx:id="scroll" layoutX="60.0" layoutY="137.0" prefHeight="428.0" prefWidth="702.0">
+         <content>
+            <AnchorPane fx:id="inneranchor" minHeight="0.0" minWidth="0.0" prefHeight="310.0" prefWidth="557.0">
+               <children>
+                  <GridPane fx:id="grid" layoutY="7.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

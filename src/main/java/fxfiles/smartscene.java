@@ -43,6 +43,10 @@ public class smartscene {
     Text scans;
     @FXML
     Text modes;
+    @FXML
+    AnchorPane inneranchor;
+    @FXML
+    ScrollPane scroll;
     public void switchTomain(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -128,6 +132,10 @@ public class smartscene {
             }
         }
         grid.setAlignment(Pos.BASELINE_LEFT);
+        inneranchor.setPrefWidth(50 * size + 25);
+        inneranchor.setPrefHeight(50 * size + 25);
+        scroll.setPrefWidth(800);
+        scroll.setPrefHeight(500);
         if (!modes.getText().equals("Slow") && !modes.getText().equals("Fast")){
             modes.setText("Slow");
         }
