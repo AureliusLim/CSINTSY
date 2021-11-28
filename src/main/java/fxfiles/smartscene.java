@@ -47,6 +47,8 @@ public class smartscene {
     AnchorPane inneranchor;
     @FXML
     ScrollPane scroll;
+    @FXML
+    Text beacond;
     public void switchTomain(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -213,6 +215,9 @@ public class smartscene {
                     if(g.getGenerate().getBeacons().get(i).getX() == g.getPlayer().getX() &&g.getGenerate().getBeacons().get(i).getY()==g.getPlayer().getY())
                     {
                         System.out.printf("Distance from G = %d", g.getGenerate().getBeacons().get(i).Distance(g.getGenerate().getGold(),g.getGenerate().getPits()));
+                        Text var10000 = smartscene.this.beacond;
+                        Beacon var10001 = (Beacon)smartscene.this.g.getGenerate().getBeacons().get(i);
+                        var10000.setText("Distance from gold is " + var10001.Distance(smartscene.this.g.getGenerate().getGold(), smartscene.this.g.getGenerate().getPits()));
                     }
                 }
             }

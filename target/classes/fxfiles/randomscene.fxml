@@ -75,5 +75,6 @@
             </AnchorPane>
         </content>
       </ScrollPane>
+      <Text fx:id="beacond" layoutX="333.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </AnchorPane>

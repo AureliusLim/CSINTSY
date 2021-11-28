@@ -12,25 +12,35 @@ public class Beacon extends Tiles{
   }
  
  //need pit array
-  public int Distance(Golden Gold, ArrayList<Pit> pits)
-  {
-    int n=0;
-    int X = this.x;
-    int Y = this.y; 
+ public int Distance(Golden Gold, ArrayList<Pit> pits)
+ {
+     int X = this.x;
+     int Y = this.y;
 
-    if(this.allignRow(X,Y,Gold, pits) == true && this.allignCol(X,Y,Gold, pits) == true)
-      n = Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY());
-    else if(this.allignCol(X,Y,Gold,pits) == true && this.allignRow(X,Y,Gold,pits) == true)
-      n = Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY());
+     if(this.allignRow(X,Y,Gold, pits) == true && this.allignCol(X,Y,Gold, pits) == true)
+         return (Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
 
-    else if (this.forceX(X,Y,Gold,pits) == true && this.forceY(X,Y,Gold,pits) == true){
-      n = Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY());
-    }
-    else if (this.forceY(X,Y,Gold,pits) == true && this.forceX(X,Y,Gold,pits) == true){
-      n = Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY());
-    }
-    return n;
-  }
+     X = this.x;
+     Y = this.y;
+
+     if(this.allignCol(X,Y,Gold,pits) == true && this.allignRow(X,Y,Gold,pits) == true)
+         return (Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
+
+     X = this.x;
+     Y = this.y;
+
+     if (this.forceX(X,Y,Gold,pits) == true && this.forceY(X,Y,Gold,pits) == true){
+         return(Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
+     }
+
+     X = this.x;
+     Y = this.y;
+
+     if (this.forceY(X,Y,Gold,pits) == true && this.forceX(X,Y,Gold,pits) == true){
+         return(Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
+     }
+     return 0;
+ }
   
   private boolean forceX(int X, int Y, Golden Gold, ArrayList<Pit> pits){
     boolean minus = false;

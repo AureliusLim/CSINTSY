@@ -48,6 +48,8 @@ public class randscene {
     AnchorPane inneranchor;
     @FXML
     ScrollPane scroll;
+    @FXML
+    Text beacond;
     public void switchTomain(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -224,6 +226,7 @@ public class randscene {
                     if(g.getGenerate().getBeacons().get(i).getX() == g.getPlayer().getX() &&g.getGenerate().getBeacons().get(i).getY()==g.getPlayer().getY())
                     {
                         System.out.printf("Distance from G = %d", g.getGenerate().getBeacons().get(i).Distance(g.getGenerate().getGold(),g.getGenerate().getPits()));
+                        beacond.setText("Distance from gold is " + g.getGenerate().getBeacons().get(i).Distance(g.getGenerate().getGold(),g.getGenerate().getPits()));
                     }
                 }
             }
