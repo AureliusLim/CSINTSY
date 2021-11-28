@@ -51,13 +51,13 @@ public class GameManager
 
   //     x = SpecialTile();
 
-  //     if(x==3)
+  //     if(x==1)
   //     {
   //       for(i=0;i<generate.getBeacons().size();i++)
   //       {       //beacon
   //         if(generate.getBeacons().get(i).getX() == this.player.getX() &&generate.getBeacons().get(i).getY()==this.player.getY())
   //         {
-  //           System.out.printf("Distance from G = %d", generate.getBeacons().get(i).Distance(generate.getGold(), generate.getPits()));
+  //           System.out.printf("Distance from G = %d", generate.getBeacons().get(i).Distance(generate.getGold(), generate.getPits(),this.n));
   //         }
   //       }
   //     }
@@ -68,9 +68,7 @@ public class GameManager
 
   public int GameStart(int behavior)
   {
-    int x=0,i;
-
-    
+    int x=0,i,start=1;
 
     this.drawBoard();
     
@@ -82,21 +80,33 @@ public class GameManager
         this.random();
         
       else if(behavior == 2)
+      {
+        if(start==1)
+        {
+          this.lastScan = this.player.scan(this.n,this);
+          this.scans++;
+          start=0;
+          smartTree.decision(0,null);
+        }
         this.smart();
-      
+      }
+        
       this.drawBoard();
 
       x = SpecialTile();
 
-      if(x==3)
+      if(x==1)
       {
-        for(i=0;i<generate.getBeacons().size();i++)
-        {       //beacon
+        for(i=0;i<generate.getBeacons().size();i++)   //beacon
+        {       
           if(generate.getBeacons().get(i).getX() == this.player.getX() &&generate.getBeacons().get(i).getY()==this.player.getY())
           {
-            System.out.printf("Distance from G = %d", generate.getBeacons().get(i).Distance(generate.getGold(),this.generate.getPits()));
+            System.out.printf("Distance from G = %d\n", generate.getBeacons().get(i).Distance(generate.getGold(),this.generate.getPits(),this.n));
           }
         }
+
+        lastScan= this.player.scan(this.n,this);
+        smartTree.decision(0,null);
       }
 
       try {
@@ -109,11 +119,13 @@ public class GameManager
     
     if(behavior==1)
     {
+      randomTree.decision("NULL",this.n);
       if(randomTree.goal()==true)
         System.out.printf("Search Successful\n");
     }
     else if(behavior==2)
     {
+      smartTree.decision(-1,null);
       if(smartTree.goal()==true)
         System.out.printf("Search Successful\n");
     }
@@ -131,12 +143,14 @@ public class GameManager
       }
     }
     
-    if(generate.getGold().getX()==this.player.getX() && generate.getGold().getY()==this.player.getY() ){    //gold
+    if(generate.getGold().getX()==this.player.getX() && 
+      generate.getGold().getY()==this.player.getY() ){    //gold
       return 2;
     }
 
     for(i=0;i<generate.getBeacons().size();i++){       //beacon
-      if(generate.getBeacons().get(i).getX() == this.player.getX() && generate.getBeacons().get(i).getY()==this.player.getY()){
+      if(generate.getBeacons().get(i).getX() == this.player.getX() &&       
+        generate.getBeacons().get(i).getY()==this.player.getY()){
         return 1;
       }
     }
@@ -253,6 +267,7 @@ public class GameManager
     int i;
     int numRotate=0;
     int min;
+    int over;
     boolean edge=false; 
     
     min=0;
@@ -260,45 +275,17 @@ public class GameManager
     
     if(this.lastScan=="g")
     {
-      smartTree.pitAvoid(this.player.getDirection(),1);
-      this.player.move(this.player.getDirection(),this.n);
+      smartTree.decision(this.player.getDirection(),dirs);
+      this.player.move(this.n);
       this.moves++;
     }
 
     else if(this.lastScan=="p")
-    {
-      min=this.player.getDirection()+1;
-      if(numRotate==5)
-        numRotate = 1;
-
-      if(numRotate==1 && this.player.getY()==this.n-1)
+    {    
+    
+      if(directionAvoidance()==1)
       {
-        edge = true;
-      }
-      else if(numRotate==2 && this.player.getX()==this.n-1)
-      {
-        edge = true;
-      }
-      else if(numRotate==3 && this.player.getY()==0)
-      {
-        edge = true;
-      }
-      else if(numRotate==4 && this.player.getX()==0)
-      {
-        edge = true;
-      }
-
-      if(edge == true)      //at edge so just move straight
-      {
-        this.lastScan=null;
-        smartTree.pitAvoid(this.player.getDirection(),1);
-        this.player.move(this.player.getDirection(),this.n);
-        this.moves++;
-      }
-
-      else
-      {
-        smartTree.pitAvoid(this.player.getDirection()+1,6);
+        smartTree.pitAvoid(this.player.getDirection()+1,dirs,5);
 
         for(int k=0;k<4;k++)
         {
@@ -306,28 +293,51 @@ public class GameManager
           this.rotates++;
 
           if(k==0){
-            this.player.move(this.player.getDirection(),this.n);
+            this.player.move(this.n);
             this.moves++;
           }           
         }
+        smartTree.decision(0,dirs);
         this.lastScan = player.scan(this.n,this);
         this.scans++;
-      }   
+      }
+      
+      else if(directionAvoidance()==-1)
+      {
+        over=this.player.getDirection()+3;
+        if(over>4)
+          over-=4;
+        smartTree.pitAvoid(over,dirs,5);
+
+        for(int k=0;k<4;k++)
+        {
+          if(k==3){
+            this.player.move(this.n);
+            this.moves++;
+          }   
+
+          this.player.rotate();
+          this.rotates++;
+        }
+        smartTree.decision(0,dirs);
+        this.lastScan = player.scan(this.n,this);
+        this.scans++;
+      }
+       
     }
     
     else
     {
       for(i=0;i<4;i++)
+      {
+        for(int j=i+1;j<4;j++)
         {
-          for(int j=i+1;j<4;j++)
-          {
-            if((dirs.get(j).gethN() + dirs.get(j).getgN())<(dirs.get(min).gethN() + 
-              dirs.get(min).getgN())){
-              min=dirs.get(j).getDir()-1;
-            }
+          if((dirs.get(j).gethN() + dirs.get(j).getgN())<(dirs.get(min).gethN() + 
+            dirs.get(min).getgN())){
+            min=dirs.get(j).getDir()-1;
           }
         }
-      System.out.println("MIN:"+min);
+      }
 
       //for tied totalCost
       for(i=0;i<4;i++)
@@ -345,40 +355,71 @@ public class GameManager
         }
       }
 
-      smartTree.decision(min+1,dirs,this.n);
-      // for(i=0;i<4;i++){
-      //   System.out.println(i+" = g(N)" + ":" + dirs.get(i).getgN() +"h(N)" + ":" + dirs.get(i).gethN());
-      // }
-      System.out.println("GET ACTION:" + smartTree.getTop().getAction());
-      System.out.println("GET DIRECCTION:" + player.getDirection());
+      smartTree.decision(min+1,dirs);
+      // System.out.println("GET ACTION:" + smartTree.getTop().getAction());
+      // System.out.println("GET DIRECCTION:" + player.getDirection());
       if(((player.getDirection() == 1 && smartTree.getTop().getAction() == "East")||
           (player.getDirection() == 2 && smartTree.getTop().getAction() == "South")||
           (player.getDirection() == 3 && smartTree.getTop().getAction() == "West")||
           (player.getDirection() == 4 && smartTree.getTop().getAction() == "North"))) 
       {
-        this.player.move(this.player.getDirection(),this.n);
+        this.player.move(this.n);
         this.moves++;
       }
 
       else
       {
         numRotate = Math.abs(player.getDirection()) - min +1 ;
-        this.rotateScan(numRotate);
+        
+        for(int k=0;k<numRotate;k++)
+        {
+          this.player.rotate();
+          this.rotates++;
+        }
+          
+        smartTree.decision(0,dirs);
+        this.lastScan = player.scan(this.n,this);
         this.scans++;
       }
     }
   }
 
-  public void rotateScan(int rotate)
+  public int directionAvoidance()
   {
-    for(int i=0;i<rotate;i++)
+    if(this.player.getDirection()==1)
     {
-      this.player.rotate();
-      this.rotates++;
+      if(this.player.getX()<=this.n/2)
+        return 1;
+      else
+        return -1;
     }
-    this.lastScan = player.scan(this.n,this);
-    this.scans++;
+          
+    else if(this.player.getDirection()==2)
+    {
+      if(this.player.getY()<=this.n/2)
+        return -1;
+      else
+        return 1;
+    }
+
+    else if(this.player.getDirection()==3)
+    {
+      if(this.player.getX()<=this.n/2)
+        return -1;
+      else
+        return 1;
+    }
+
+    else if(this.player.getDirection()==4)
+    {
+      if(this.player.getY()<=this.n/2)
+        return 1;
+      else
+        return -1;
+    }
+    return 0;
   }
+
   public DFSnode getrandTree(){
     return this.randomTree;
   }
@@ -388,10 +429,10 @@ public class GameManager
   public int getmoveCount(){
     return this.moves;
   }
+  public int getrotateCount(){
+    return this.rotates;
+  }
   public int getscanCount(){
     return this.scans;
-  }
-  public int getrotateCount() {
-    return this.rotates;
   }
 }

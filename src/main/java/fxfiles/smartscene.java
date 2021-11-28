@@ -29,6 +29,7 @@ public class smartscene {
     private Parent root;
     private GameManager g;
     private ImageView minerimage;
+    private int count;
     @FXML
     TextField boardsize;
     @FXML
@@ -49,6 +50,8 @@ public class smartscene {
     ScrollPane scroll;
     @FXML
     Text beacond;
+    @FXML
+    Text result;
     public void switchTomain(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -203,7 +206,10 @@ public class smartscene {
             moves.setText(Integer.toString(g.getmoveCount()));
             rotates.setText(Integer.toString(g.getrotateCount()));
             scans.setText(Integer.toString(g.getscanCount()));
-
+            if (!beacond.getText().equals("") && count == 8){
+                beacond.setText("");
+                count= 0;
+            }
 
 
             x = g.SpecialTile();
@@ -212,23 +218,27 @@ public class smartscene {
             {
                 for(i=0;i<g.getGenerate().getBeacons().size();i++)
                 {       //beacon
-                    if(g.getGenerate().getBeacons().get(i).getX() == g.getPlayer().getX() &&g.getGenerate().getBeacons().get(i).getY()==g.getPlayer().getY())
-                    {
-                        System.out.printf("Distance from G = %d", g.getGenerate().getBeacons().get(i).Distance(g.getGenerate().getGold(),g.getGenerate().getPits()));
-                        Text var10000 = smartscene.this.beacond;
-                        Beacon var10001 = (Beacon)smartscene.this.g.getGenerate().getBeacons().get(i);
-                        var10000.setText("Distance from gold is " + var10001.Distance(smartscene.this.g.getGenerate().getGold(), smartscene.this.g.getGenerate().getPits()));
+                    if(g.getGenerate().getBeacons().get(i).getX() == g.getPlayer().getX() &&g.getGenerate().getBeacons().get(i).getY()==g.getPlayer().getY()) {
+
+
+                        System.out.printf("Distance from G = %d", g.getGenerate().getBeacons().get(i).Distance(g.getGenerate().getGold(), g.getGenerate().getPits(), Integer.parseInt(boardsize.getText())));
+                        beacond.setText("Distance from gold is " + g.getGenerate().getBeacons().get(i).Distance(g.getGenerate().getGold(), g.getGenerate().getPits(), Integer.parseInt(boardsize.getText())));
+                        count = 0;
                     }
                 }
             }
-
+            if (beacond.getText().length() > 4){
+                count++;
+            }
             if (x == 3)
             {
+                result.setText("Search Failed");
                 stop();
 
                 System.out.println("Animation stops here:"+ x);
             }
             else if (x == 2){
+                result.setText("Search Successful");
                 stop();
                 System.out.println("Animation stops here:"+ x);
             }

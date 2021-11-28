@@ -1,7 +1,6 @@
 package base;
 import java.util.LinkedList;
 import java.util.ArrayList;
-import java.lang.Math; 
 
 public class DFSnode      //stack
 {
@@ -32,9 +31,8 @@ public class DFSnode      //stack
     {
       node.add(new Node(player,top,"Scan",1,depth));
       node.add(new Node(player,top,"Rotate",1,depth));
-      this.player.move(this.player.getDirection(), n);
+      this.player.move(n);
       node.add(new Node(player,top,"Move",1,depth));
-      top=node.getLast();
     }
 
     else if(action=="Scan")
@@ -42,7 +40,6 @@ public class DFSnode      //stack
       node.add(new Node(player,top,"Move",1,depth));
       node.add(new Node(player,top,"Rotate",1,depth));
       node.add(new Node(player,top,"Scan",1,depth));
-      top=node.getLast();
     }
 
     else if(action=="Rotate")
@@ -51,9 +48,13 @@ public class DFSnode      //stack
       node.add(new Node(player,top,"Scan",1,depth));
       this.player.rotate();
       node.add(new Node(player,top,"Rotate",1,depth));
-      top=node.getLast();
     }
-
+    
+    else
+    {
+      node.add(new Node(player,top,action,0,depth));
+    }
+    top=node.getLast();
   }
 
   public boolean goal()
@@ -67,7 +68,20 @@ public class DFSnode      //stack
   public LinkedList<Node> getNodes(){
     return this.node;
   }
-  public Node getTop() {
+  public Node getTop(){
     return this.top;
+  }
+  public void passedNodes(Node check){
+    if(check != null){
+      System.out.println(check.toString());
+      passedNodes(check.getParent());
+    }
+  }
+
+  public void allNodes(){
+    int i;
+    for(i=0; i<node.size();i++){
+      System.out.println(node.get(i).toString());
+    }
   }
 }

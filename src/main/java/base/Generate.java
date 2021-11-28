@@ -35,7 +35,6 @@ public class Generate{
         }
       col++;
       }
-      
     }
   }
 
@@ -69,7 +68,6 @@ public class Generate{
   public void determineBeacon(int n,ArrayList<Tiles> tiles)
   {
     Random rand = new Random(new Date().getTime());
-  
     this.beacons = new ArrayList<Beacon>();
     
     int max;
@@ -79,7 +77,6 @@ public class Generate{
       max = 1;
     else
       max = (int)(n * 0.1); 
-  
   
     while (this.beacons.size() < max){ 
       x = rand.nextInt(n);
@@ -95,12 +92,11 @@ public class Generate{
   {
     Random rand = new Random(new Date().getTime());
     int max;
-      max = (int)(n * 0.25);
-    this.pits = new ArrayList<Pit>();
-  
     int x,y;
-    int distance;
-
+    int distance;   
+    this.pits = new ArrayList<Pit>();
+    max = (int)(n * 0.25);
+    
     while(this.pits.size()< max){
       x = rand.nextInt(n);
       y = rand.nextInt(n);
@@ -109,7 +105,6 @@ public class Generate{
         this.pits.add(new Pit(x,y,"P",distance));
       }
     }
-  
   }
 
   public ArrayList<Beacon> getBeacons(){

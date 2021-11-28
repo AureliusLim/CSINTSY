@@ -1,6 +1,5 @@
 package base;
 import java.util.*;
-import java.lang.*;
 
 public class Beacon extends Tiles{ 
 
@@ -12,154 +11,183 @@ public class Beacon extends Tiles{
   }
  
  //need pit array
- public int Distance(Golden Gold, ArrayList<Pit> pits)
- {
-     int X = this.x;
-     int Y = this.y;
-
-     if(this.allignRow(X,Y,Gold, pits) == true && this.allignCol(X,Y,Gold, pits) == true)
-         return (Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
-
-     X = this.x;
-     Y = this.y;
-
-     if(this.allignCol(X,Y,Gold,pits) == true && this.allignRow(X,Y,Gold,pits) == true)
-         return (Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
-
-     X = this.x;
-     Y = this.y;
-
-     if (this.forceX(X,Y,Gold,pits) == true && this.forceY(X,Y,Gold,pits) == true){
-         return(Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
-     }
-
-     X = this.x;
-     Y = this.y;
-
-     if (this.forceY(X,Y,Gold,pits) == true && this.forceX(X,Y,Gold,pits) == true){
-         return(Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
-     }
-     return 0;
- }
-  
-  private boolean forceX(int X, int Y, Golden Gold, ArrayList<Pit> pits){
-    boolean minus = false;
-    boolean add = false;
-    boolean detour = false;
-    do{
-      minus = false;
-      add = false;
-      detour = false;
-      if (X > Gold.getX())
-      {
-        minus = true;
-        X--;
-      }
-      else
-      {
-        add = true;
-        X++;
-      }
-
-      for (int i = 0 ; i < pits.size(); i++){
-        if (pits.get(i).getX() == X && pits.get(i).getY() == Y){
-            if(add == true)
-            {
-              X--;
-              break;
-            }
-            else if( minus == true)
-            {
-              X++;
-              break;
-            }
-            detour = true;
-        }
-      }
-      if (detour == true){
-        if (Y > Gold.getY()){
-          Y--;
-        }
-        else if (Y < Gold.getY()){
-          Y++;
-        }
-        for (int i = 0 ; i < pits.size(); i++){
-          if (pits.get(i).getX() == X && pits.get(i).getY() == Y){
-              return false;
-          }
-        } 
-      }
-      
-    }while(X != Gold.getX());
-    return true;
-  }
- private boolean forceY(int X, int Y, Golden Gold, ArrayList<Pit> pits){
-    boolean minus = false;
-    boolean add = false;
-    boolean detour = false;
-    do{
-      minus = false;
-      add = false;
-      detour = false;
-      if (Y > Gold.getY())
-      {
-        minus = true;
-        Y--;
-      }
-      else
-      {
-        add = true;
-        Y++;
-      }
-
-      for (int i = 0 ; i < pits.size(); i++){
-        if (pits.get(i).getX() == X && pits.get(i).getY() == Y){
-            if(add == true)
-            {
-              Y--;
-              break;
-            }
-            else if( minus == true)
-            {
-              Y++;
-              break;
-            }
-            detour = true;
-        }
-      }
-      if (detour == true){
-        if (X > Gold.getX()){
-          Y--;
-        }
-        else if (X < Gold.getX()){
-          Y++;
-        }
-        for (int i = 0 ; i < pits.size(); i++){
-          if (pits.get(i).getX() == X && pits.get(i).getY() == Y){
-              return false;
-          }
-        } 
-      }
-      
-    }while(Y != Gold.getY());
-    return true;
-  }
-  private boolean allignRow(int X,int Y,Golden Gold, ArrayList<Pit> pits)
+  public int Distance(Golden Gold, ArrayList<Pit> pits,int n)
   {
-          
-      do{
+    int X = this.x;
+    int Y = this.y; 
+
+    if(this.allignRow(X,Y,Gold, pits) == true && this.allignCol(X,Y,Gold, pits) == true)
+      return (Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
+    
+    X = this.x;
+    Y = this.y; 
+
+    if(this.allignCol(X,Y,Gold,pits) == true && this.allignRow(X,Y,Gold,pits) == true)
+      return (Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
+
+
+    for(int i=1;i<n;i++)
+    {
+      X = this.x+i;
+      Y = this.y; 
+
+      if(this.allignRow(X,Y,Gold, pits) == true && this.allignCol(X,Y,Gold, pits) == true)
+        return (Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()))+i;
       
+      X = this.x;
+      Y = this.y+i; 
+
+      if(this.allignCol(X,Y,Gold,pits) == true && this.allignRow(X,Y,Gold,pits) == true)
+        return (Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()))+i;
+
+      X = this.x-i;
+      Y = this.y; 
+
+      if(this.allignRow(X,Y,Gold, pits) == true && this.allignCol(X,Y,Gold, pits) == true)
+        return (Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()))+i;
+      
+      X = this.x;
+      Y = this.y-i; 
+
+      if(this.allignCol(X,Y,Gold,pits) == true && this.allignRow(X,Y,Gold,pits) == true)
+        return (Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()))+i;
+    }
+
+    
+
+    // if (this.forceX(X,Y,Gold,pits) == true && this.forceY(X,Y,Gold,pits) == true){
+    //   return(Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
+    // }
+
+    // X = this.x;
+    // Y = this.y; 
+
+    // if (this.forceY(X,Y,Gold,pits) == true && this.forceX(X,Y,Gold,pits) == true){
+    //   return(Math.abs(this.x - Gold.getX()) + Math.abs(this.y - Gold.getY()));
+    // }
+    return 0;
+  }
+  
+  // private boolean forceX(int X, int Y, Golden Gold, ArrayList<Pit> pits){
+  //   boolean minus = false;
+  //   boolean add = false;
+  //   boolean detour = false;
+  //   do{
+  //     minus = false;
+  //     add = false;
+  //     detour = false;
+  //     if (X > Gold.getX())
+  //     {
+  //       minus = true;
+  //       X--;
+  //     }
+  //     else
+  //     {
+  //       add = true;
+  //       X++;
+  //     }
+
+  //     for (int i = 0 ; i < pits.size(); i++){
+  //       if (pits.get(i).getX() == X && pits.get(i).getY() == Y){
+  //           if(add == true)
+  //           {
+  //             X--;
+  //             break;
+  //           }
+  //           else if( minus == true)
+  //           {
+  //             X++;
+  //             break;
+  //           }
+  //           detour = true;
+  //       }
+  //     }
+  //     if (detour == true){
+  //       if (Y > Gold.getY()){
+  //         Y--;
+  //       }
+  //       else if (Y < Gold.getY()){
+  //         Y++;
+  //       }
+  //       for (int i = 0 ; i < pits.size(); i++){
+  //         if (pits.get(i).getX() == X && pits.get(i).getY() == Y){
+  //             return false;
+  //         }
+  //       } 
+  //     }
+      
+  //   }while(X != Gold.getX());
+  //   return true;
+  // }
+  
+  // private boolean forceY(int X, int Y, Golden Gold, ArrayList<Pit> pits){
+  //   boolean minus = false;
+  //   boolean add = false;
+  //   boolean detour = false;
+  //   int count=0;
+
+  //   do{
+  //     minus = false;
+  //     add = false;
+  //     detour = false;
+  //     if (Y > Gold.getY())
+  //     {
+  //       minus = true;
+  //       Y--;
+  //     }
+  //     else
+  //     {
+  //       add = true;
+  //       Y++;
+  //     }
+
+  //     for (int i = 0 ; i < pits.size(); i++){
+  //       if (pits.get(i).getX() == X && pits.get(i).getY() == Y)
+  //       {
+  //         if(add == true)
+  //         {
+  //           Y--;
+  //         }
+  //         else if( minus == true)
+  //         {
+  //           Y++;
+  //         }
+  //         detour=true;
+  //         break;
+  //       }
+  //     }
+  //     if (detour == true){
+  //       if (X > Gold.getX()){
+  //         X--;
+  //       }
+  //       else if (X < Gold.getX()){
+  //         X++;
+  //       }
+  //       for (int i = 0 ; i < pits.size(); i++){
+  //         if (pits.get(i).getX() == X && pits.get(i).getY() == Y){
+  //             return false;
+  //         }
+  //       } 
+  //     }
+
+  //     count++;
+      
+  //   }while(Y != Gold.getY());
+  //   return true;
+  // }
+
+  private boolean allignRow(int X,int Y,Golden Gold, ArrayList<Pit> pits)
+  {      
+      do{   
         if(X>Gold.getX())
           X--;
         else if (X < Gold.getX())
           X++;
 
-
         for (int i = 0; i < pits.size(); i++)
         {
           if (pits.get(i).getX() == X && pits.get(i).getY() == Y)
             return false;
-
         }
 
     }while(X!=Gold.getX());
@@ -168,26 +196,22 @@ public class Beacon extends Tiles{
   }
 
   private boolean allignCol(int X,int Y,Golden Gold, ArrayList<Pit> pits)
-  {
-      
-      do{
-      
-        if(Y>Gold.getY())
-          Y--;
-        else if (Y<Gold.getY())
-          Y++;
+  {      
+    do{
+    
+      if(Y>Gold.getY())
+        Y--;
+      else if (Y<Gold.getY())
+        Y++;
 
-
-        for (int i = 0; i < pits.size(); i++)
-        {
-          if (pits.get(i).getX() == X && pits.get(i).getY() == Y)
-            return false;
-
-        }
+      for (int i = 0; i < pits.size(); i++)
+      {
+        if (pits.get(i).getX() == X && pits.get(i).getY() == Y)
+          return false;
+      }
 
     }while(Y!=Gold.getY());
 
     return true;
   }
-
 }

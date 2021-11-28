@@ -76,5 +76,10 @@
         </content>
       </ScrollPane>
       <Text fx:id="beacond" layoutX="333.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="result" fill="#ef0404" layoutX="580.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

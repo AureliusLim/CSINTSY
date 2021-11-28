@@ -1,5 +1,6 @@
 package base;
 import java.util.*;
+
 public class Player{
   private int x;
   private int y;
@@ -10,53 +11,48 @@ public class Player{
     this.direction = 1;
   } 
 
-                  //is direction needed?
- public void move(int direction, int n)
+ public void move(int n)
   {
-    if(direction==1 && this.y+1 < n && this.y+1 >= 0)     //right
+    if(this.direction==1 && this.y+1 < n && this.y+1 >= 0)     //right
       setY(this.y+1);
 
-    else if(direction==2 && this.x+1 < n && this.x+1 >= 0)     //down
+    else if(this.direction==2 && this.x+1 < n && this.x+1 >= 0)     //down
       setX(this.x+1);
 
-    else if(direction==3 && this.y-1 < n && this.y-1 >= 0)     //left
+    else if(this.direction==3 && this.y-1 < n && this.y-1 >= 0)     //left
       setY(this.y-1);
 
-    else if(direction==4 && this.x-1 < n && this.x-1 >= 0)     //up
+    else if(this.direction==4 && this.x-1 < n && this.x-1 >= 0)     //up
       setX(this.x-1);
   }
   public void rotate(){     //clockwise rotation
-
-    if(this.direction<4){
+    if(this.direction<4)
       this.direction++;
-    }
-    else{
+
+    else
       this.direction=1;
-    }
   }
   public Tiles occupied(int x, int y, ArrayList<Tiles> tiles)
   {
     for (int i = 0; i < tiles.size(); i++)
     {
       if (tiles.get(i).getX() == x && tiles.get(i).getY() == y) // if x and y is equal to a tile pos, then it is occupied
-      {
         return tiles.get(i);
-      }
+
     }
     return null;
   }
 
   public String getInstance(Tiles tile){
     
-    if(tile instanceof Golden){
+    if(tile instanceof Golden)
       return "g";
-    }
-    else if(tile instanceof Pit){
+
+    else if(tile instanceof Pit)
       return "p";
-    }
-    else if(tile instanceof Beacon){
+
+    else if(tile instanceof Beacon)
       return "b";
-    }
 
     return "NULL";
   }
@@ -106,7 +102,6 @@ public class Player{
         }
       }
     }
-
     return "NULL";
   }
 
@@ -138,5 +133,4 @@ public class Player{
     this.direction = direction;
   }
   
-
 }

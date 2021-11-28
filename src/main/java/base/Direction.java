@@ -4,7 +4,6 @@ public class Direction
   private int gN,hN;
   private int dir;
   
-  
   public Direction(int gN,int hN,int dir){
     this.gN=gN;
     this.hN=hN;
@@ -40,7 +39,4 @@ public class Direction
   {
     return dir;
   }
-    
-  
-  
 }

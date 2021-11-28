@@ -14,15 +14,23 @@ public class Node
     this.action = action;
     this.cost=1;
     this.depth=depth;
-    
   }
 
   public State getState(){
     return this.state;
   }
 
-  public String getAction()
-  {
+  public String getAction(){
     return this.action;
+  }
+  public int getDepth(){
+    return depth;
+  }
+  public Node getParent(){
+    return this.parent;
+  }
+  @Override
+  public String toString(){
+    return "COORDINATES =" + state.toString() +"\nACTION :"+action + "\nCOST :" + cost + "\nDEPTH :" + depth;
   }
 }

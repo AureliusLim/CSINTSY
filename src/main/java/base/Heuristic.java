@@ -19,68 +19,67 @@ public class Heuristic{
     this.N=N;
     this.tiles=tiles;
 
-
     this.goalState.add(new State(gold.getX(),gold.getY(),1));
     this.goalState.add(new State(gold.getX(),gold.getY(),2));
     this.goalState.add(new State(gold.getX(),gold.getY(),3));
     this.goalState.add(new State(gold.getX(),gold.getY(),4));
-
-    // this.goalState = new State(gold.getX(),gold.getY(),0);
   }
 
-  public void pitAvoid(int rotate,int cost)
+  public void pitAvoid(int rotate,ArrayList<Direction> dirs,int cost)
   {
     this.depth++;
-
     if(rotate==1)
     {
-      node.add(new Node(player,top,"South",cost,depth));
-      node.add(new Node(player,top,"West",cost,depth));
-      node.add(new Node(player,top,"North",cost,depth));
-      node.add(new Node(player,top,"East",cost,depth));
-      top=node.getLast();
+      node.add(new Node(player,top,"South",dirs.get(1).gethN()+cost,depth));
+      node.add(new Node(player,top,"West",dirs.get(2).gethN()+cost,depth));
+      node.add(new Node(player,top,"North",dirs.get(3).gethN()+cost,depth));
+      node.add(new Node(player,top,"East",dirs.get(0).gethN()+cost,depth));
     }
+    
 
     else if(rotate==2)
     {
-      node.add(new Node(player,top,"North",cost,depth));
-      node.add(new Node(player,top,"West",cost,depth));
-      node.add(new Node(player,top,"East",cost,depth));
-      node.add(new Node(player,top,"South",cost,depth));
-      top=node.getLast();
+      node.add(new Node(player,top,"North",dirs.get(3).gethN()+cost,depth));
+      node.add(new Node(player,top,"West",dirs.get(2).gethN()+cost,depth));
+      node.add(new Node(player,top,"East",dirs.get(0).gethN()+cost,depth));
+      node.add(new Node(player,top,"South",dirs.get(1).gethN()+cost,depth));
     }
 
     else if(rotate==3)
     {
-      node.add(new Node(player,top,"North",cost,depth));
-      node.add(new Node(player,top,"East",cost,depth));
-      node.add(new Node(player,top,"South",cost,depth));
-      node.add(new Node(player,top,"West",cost,depth));
-      top=node.getLast();
+      node.add(new Node(player,top,"North",dirs.get(3).gethN()+cost,depth));
+      node.add(new Node(player,top,"East",dirs.get(0).gethN()+cost,depth));
+      node.add(new Node(player,top,"South",dirs.get(1).gethN()+cost,depth));
+      node.add(new Node(player,top,"West",dirs.get(2).gethN()+cost,depth));
     }
 
     else if(rotate==4)
     {
-      node.add(new Node(player,top,"East",cost,depth));
-      node.add(new Node(player,top,"South",cost,depth));
-      node.add(new Node(player,top,"West",cost,depth));
-      node.add(new Node(player,top,"North",cost,depth));
-      top=node.getLast();
+      node.add(new Node(player,top,"East",dirs.get(0).gethN()+cost,depth));
+      node.add(new Node(player,top,"South",dirs.get(1).gethN()+cost,depth));
+      node.add(new Node(player,top,"West",dirs.get(2).gethN()+cost,depth));
+      node.add(new Node(player,top,"North",dirs.get(3).gethN()+cost,depth));
     }
-    
+    this.top=node.getLast();
   }
 
-  public void decision(int action,ArrayList<Direction> dirs,int n)
+  public void decision(int action,ArrayList<Direction> dirs)
   {
     this.depth++;
+    
+    if(action==0)
+    {
+      node.add(new Node(player,top,"Scan",1+this.getDistance(this.player.getX(),this.player.getY()),depth));
+    }
 
-    if(action==1)
+
+    //add the edge of board condition??
+    else if(action==1)
     {
       node.add(new Node(player,top,"North",dirs.get(3).getTotal(),depth));
       node.add(new Node(player,top,"South",dirs.get(1).getTotal(),depth));
       node.add(new Node(player,top,"West",dirs.get(2).getTotal(),depth));
       node.add(new Node(player,top,"East",dirs.get(0).getTotal(),depth));
-      top=node.getLast();
     }
 
     else if(action==2)
@@ -89,7 +88,6 @@ public class Heuristic{
       node.add(new Node(player,top,"East",dirs.get(0).getTotal(),depth));
       node.add(new Node(player,top,"West",dirs.get(2).getTotal(),depth));
       node.add(new Node(player,top,"South",dirs.get(1).getTotal(),depth));
-      top=node.getLast();
     }
 
     else if(action==3)
@@ -98,7 +96,6 @@ public class Heuristic{
       node.add(new Node(player,top,"East",dirs.get(0).getTotal(),depth));
       node.add(new Node(player,top,"South",dirs.get(1).getTotal(),depth));
       node.add(new Node(player,top,"West",dirs.get(2).getTotal(),depth));
-      top=node.getLast();
     }
 
     else if(action==4)
@@ -107,25 +104,16 @@ public class Heuristic{
       node.add(new Node(player,top,"East",dirs.get(0).getTotal(),depth));
       node.add(new Node(player,top,"West",dirs.get(2).getTotal(),depth));
       node.add(new Node(player,top,"North",dirs.get(3).getTotal(),depth));
-      top=node.getLast();
     }
+
+    else
+    {
+      node.add(new Node(player,top,"NULL",0,depth));
+    }
+    this.top=node.getLast();
   }
 
-  // public double getDistance(int x, int y){
-  //   int i;
-  //   double distance;
-  //   for(i=0;i<N;i++){
-  //     if(tiles.get(i) instanceof Golden){
-  //       distance= Math.sqrt(Math.pow((x-tiles.get(i).getX()),2) + 
-  //                 Math.pow((y-tiles.get(i).getY()),2));
-  //       return distance;
-  //     }
-  //   }
-  // }
-
-
-  //by tiles
-  public int getDistance(int x,int y){
+  public int getDistance(int x,int y){          //by tiles
     int i;
     int distance;
     for(i=0;i<N;i++){
@@ -140,33 +128,13 @@ public class Heuristic{
 
   public void adjacent(ArrayList<Direction> dirs)
   {
-    int i;
     int playerX = player.getX();
     int playerY = player.getY();
 
-    /*for(i=0;i<N*N;i++){
-      if(tiles.get(i).getX()==playerX+1 && tiles.get(i).getY()==playerY){
-        System.out.println("DISTANCE:" + getDistance(tiles.get(i).getX(),tiles.get(i).getY()));
-        dirs.get(0).sethN(getDistance(tiles.get(i).getX(),tiles.get(i).getY()));
-      }
-      if(tiles.get(i).getX()==playerX-1 && tiles.get(i).getY()==playerY){
-        System.out.println("DISTANCE:" +getDistance(tiles.get(i).getX(),tiles.get(i).getY()));
-        dirs.get(2).sethN(getDistance(tiles.get(i).getX(),tiles.get(i).getY()));
-      }
-      if(tiles.get(i).getX()==playerX && tiles.get(i).getY()==playerY+1){
-        System.out.println("DISTANCE:" +getDistance(tiles.get(i).getX(),tiles.get(i).getY()));
-        dirs.get(1).sethN(getDistance(tiles.get(i).getX(),tiles.get(i).getY()));
-      }
-      if(tiles.get(i).getX()==playerX && tiles.get(i).getY()==playerY-1){
-        System.out.println("DISTANCE:" +getDistance(tiles.get(i).getX(),tiles.get(i).getY()));
-        dirs.get(3).sethN(getDistance(tiles.get(i).getX(),tiles.get(i).getY()));
-      }    
-    }*/
     if(playerX+1<N){
       dirs.get(1).sethN(getDistance(playerX+1, playerY));
     }
-  
-    
+ 
     if(playerX-1>=0){
       dirs.get(3).sethN(getDistance(playerX-1, playerY)); 
     }
@@ -183,32 +151,32 @@ public class Heuristic{
     if(this.player.getDirection() == 1)
     {
       dirs.get(0).setgN(1);
-      dirs.get(1).setgN(2);
-      dirs.get(2).setgN(3);
-      dirs.get(3).setgN(4);
-    }
-
-    else if(this.player.getDirection() == 2)
-    {
-      dirs.get(0).setgN(4);
       dirs.get(1).setgN(1);
       dirs.get(2).setgN(2);
       dirs.get(3).setgN(3);
     }
 
-    else if(this.player.getDirection() == 3)
+    else if(this.player.getDirection() == 2)
     {
       dirs.get(0).setgN(3);
-      dirs.get(1).setgN(4);
+      dirs.get(1).setgN(1);
       dirs.get(2).setgN(1);
       dirs.get(3).setgN(2);
     }
 
-    else if(this.player.getDirection() == 4)
+    else if(this.player.getDirection() == 3)
     {
       dirs.get(0).setgN(2);
       dirs.get(1).setgN(3);
-      dirs.get(2).setgN(4);
+      dirs.get(2).setgN(1);
+      dirs.get(3).setgN(1);
+    }
+
+    else if(this.player.getDirection() == 4)
+    {
+      dirs.get(0).setgN(1);
+      dirs.get(1).setgN(2);
+      dirs.get(2).setgN(3);
       dirs.get(3).setgN(1);
     }
   }
@@ -228,10 +196,22 @@ public class Heuristic{
   {
     for (int i = 0; i < this.goalState.size(); i++){
 
-      // System.out.printf("goal: %d %d %d",);
       if(this.goalState.get(i).getX() == this.player.getX() && this.goalState.get(i).getY() == this.player.getY())
-      return true;
+        return true;
     }
     return false;
+  }
+  public void passedNodes(Node check){
+    if(check != null){
+      System.out.println(check.toString());
+      passedNodes(check.getParent());
+    }
+  }
+
+  public void allNodes(){
+    int i;
+    for(i=0; i<node.size();i++){
+      System.out.println(node.get(i).toString());
+    }
   }
 }

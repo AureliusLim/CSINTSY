@@ -30,6 +30,7 @@ public class randscene {
     private Parent root;
     private GameManager g;
     private ImageView minerimage;
+    private int count = 0;
     @FXML
     TextField boardsize;
     @FXML
@@ -50,6 +51,9 @@ public class randscene {
     ScrollPane scroll;
     @FXML
     Text beacond;
+    @FXML
+    Text result;
+
     public void switchTomain(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -201,7 +205,10 @@ public class randscene {
                     ex.printStackTrace();
                 }
             }
-
+            if (!beacond.getText().equals("") && count == 8){
+                beacond.setText("");
+                count= 0;
+            }
             grid.getChildren().remove(minerimage);
             grid.add(minerimage,g.getPlayer().getY(), g.getPlayer().getX());
             if (g.getrandTree().getTop().getAction().equals("Move")){
@@ -225,19 +232,24 @@ public class randscene {
                 {       //beacon
                     if(g.getGenerate().getBeacons().get(i).getX() == g.getPlayer().getX() &&g.getGenerate().getBeacons().get(i).getY()==g.getPlayer().getY())
                     {
-                        System.out.printf("Distance from G = %d", g.getGenerate().getBeacons().get(i).Distance(g.getGenerate().getGold(),g.getGenerate().getPits()));
-                        beacond.setText("Distance from gold is " + g.getGenerate().getBeacons().get(i).Distance(g.getGenerate().getGold(),g.getGenerate().getPits()));
+                        System.out.printf("Distance from G = %d", g.getGenerate().getBeacons().get(i).Distance(g.getGenerate().getGold(),g.getGenerate().getPits(), Integer.parseInt(boardsize.getText())));
+                        beacond.setText("Distance from gold is " + g.getGenerate().getBeacons().get(i).Distance(g.getGenerate().getGold(),g.getGenerate().getPits(),Integer.parseInt(boardsize.getText())));
+                        count = 0;
                     }
                 }
             }
-
+            if (beacond.getText().length() > 4){
+                count++;
+            }
             if (x == 3)
             {
+                result.setText("Search Failed");
                 stop();
 
                 System.out.println("Animation stops here:"+ x);
             }
             else if (x == 2){
+                result.setText("Search Successful");
                 stop();
                 System.out.println("Animation stops here:"+ x);
             }
