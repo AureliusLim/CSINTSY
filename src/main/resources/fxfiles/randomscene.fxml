@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchor" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxfiles.randscene">
+<AnchorPane fx:id="anchor" prefHeight="506.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxfiles.randscene">
    <children>
       <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchTomain" text="Back" />
       <Text layoutX="158.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Random Movement Simulator" wrappingWidth="299.1473388671875">
@@ -24,13 +25,66 @@
          </font>
       </Text>
       <Button layoutX="522.0" layoutY="55.0" mnemonicParsing="false" onAction="#moveMiner" text="Run" />
-      <GridPane fx:id="grid" layoutX="200.0" layoutY="139.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
+      <Text layoutX="14.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Moves: ">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="moves" layoutX="66.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="96.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scans:">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="185.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rotates:">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="scans" layoutX="154.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="rotates" layoutX="250.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font name="Bookman Old Style" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="14.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mode:" />
+      <Text fx:id="modes" layoutX="53.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="33.75" />
+      <Button layoutX="98.0" layoutY="86.0" mnemonicParsing="false" onAction="#slowDown" text="Slow" />
+      <Button layoutX="166.0" layoutY="86.0" mnemonicParsing="false" onAction="#speedUp" text="Fast" />
+      <ScrollPane fx:id="scroll" layoutX="50.0" layoutY="127.0" prefHeight="428.0" prefWidth="702.0">
+        <content>
+          <AnchorPane fx:id="inneranchor" minHeight="0.0" minWidth="0.0" prefHeight="310.0" prefWidth="557.0">
+               <children>
+                  <GridPane fx:id="grid">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Text fx:id="beacond" layoutX="333.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="result" fill="#ef0404" layoutX="580.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <Text fx:id="message" fill="#f20707" layoutX="569.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

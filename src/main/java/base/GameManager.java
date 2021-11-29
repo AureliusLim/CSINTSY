@@ -32,39 +32,6 @@ public class GameManager
     this.scans=0;
   }
 
-  // public int Control(int move)
-  // {
-  //   int x=0,i;
-
-  //     if(move==1 && this.player.getY()+1 < n && this.player.getY()+1 >= 0)     //right
-  //       this.player.setY(this.player.getY()+1);
-
-  //     else if(move==2 && this.player.getX()+1 < n && this.player.getX()+1 >= 0)     //down
-  //       this.player.setX(this.player.getX()+1);
-
-  //     else if(move==3 && this.player.getY()-1 < n && this.player.getY()-1 >= 0)     //left
-  //       this.player.setY(this.player.getY()-1);
-
-  //     else if(move==4 && this.player.getX()-1 < n && this.player.getX()-1 >= 0)     //up
-  //       this.player.setX(this.player.getX()-1);
-
-
-  //     x = SpecialTile();
-
-  //     if(x==1)
-  //     {
-  //       for(i=0;i<generate.getBeacons().size();i++)
-  //       {       //beacon
-  //         if(generate.getBeacons().get(i).getX() == this.player.getX() &&generate.getBeacons().get(i).getY()==this.player.getY())
-  //         {
-  //           System.out.printf("Distance from G = %d", generate.getBeacons().get(i).Distance(generate.getGold(), generate.getPits(),this.n));
-  //         }
-  //       }
-  //     }
-     
-  //   this.drawBoard();
-  //   return x;
-  // }
 
   public int GameStart(int behavior)
   {

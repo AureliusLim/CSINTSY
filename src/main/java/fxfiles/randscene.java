@@ -53,7 +53,8 @@ public class randscene {
     Text beacond;
     @FXML
     Text result;
-
+    @FXML
+    Text message;
     public void switchTomain(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -65,92 +66,109 @@ public class randscene {
     public void moveMiner(ActionEvent e) throws IOException {
         int size;
         size = Integer.parseInt(boardsize.getText());
+        if (size >= 8 && size <= 64) {
 
-        GameManager g = new GameManager(size);
-        this.g = g;
-        ArrayList<Tiles> tiles = g.getTile();
-        Player player = g.getPlayer();
-        //GridPane grid = new GridPane();
+            moves.setText(Integer.toString(0));
+            rotates.setText(Integer.toString(0));
+            scans.setText(Integer.toString(0));
 
-        System.out.println("GOLDPOS:"+g.getGenerate().getGold().getX() + " " + g.getGenerate().getGold().getY());
-        grid.setGridLinesVisible(true);
-        grid.setPrefHeight(500);
-        grid.setPrefWidth(500);
-        grid.setMinHeight(500);
-        grid.setMinWidth(500);
-        grid.setMaxWidth(500);
-        grid.setMaxHeight(500);
-
-        Image miner = new Image("file:src/miner-pic.jpg");
-        Image gold = new Image("file:src/gold.png");
-        Image grass = new Image("file:src/grass.png");
-        Image beacon = new Image("file:src/beacon.png");
-        Image pit = new Image("file:src/pit.jpg");
-        ImageView minerimage = new ImageView(miner);
-        ImageView goldimage = new ImageView(gold);
-
-        minerimage.setFitHeight(50);
-        minerimage.setFitWidth(50);
-
-        goldimage.setFitHeight(50);
-        goldimage.setFitWidth(50);
-
-        while(grid.getRowConstraints().size() > 0){
-            grid.getRowConstraints().remove(0);
-        }
-
-        while(grid.getColumnConstraints().size() > 0){
-            grid.getColumnConstraints().remove(0);
-        }
+            grid.getChildren().clear();
+            message.setText("");
+            GameManager g = new GameManager(size);
+            this.g = g;
+            ArrayList<Tiles> tiles = g.getTile();
+            Player player = g.getPlayer();
 
 
-        for (int rows = 0; rows < size; rows++) {
-            for (int cols = 0; cols < size; cols++) {
-                for (int i = 0; i < tiles.size(); i++) {
-                    if (rows == player.getX() && cols == player.getY()) {
-                        grid.add(minerimage, cols,rows);
-                        this.minerimage = minerimage;
-                        break;
-                    } else if (tiles.get(i).getX() == rows && tiles.get(i).getY() == cols) {
-                        if (tiles.get(i).getIcon() == "B") {
-                            ImageView beaconimage = new ImageView(beacon);
-                            beaconimage.setFitWidth(50);
-                            beaconimage.setFitHeight(50);
-                            grid.add(beaconimage, cols,rows);
-                        } else if (tiles.get(i).getIcon() == "G") {
-                            grid.add(goldimage, cols,rows);
-                        } else if (tiles.get(i).getIcon() == "P") {
-                            ImageView pitimage = new ImageView(pit);
-                            pitimage.setFitHeight(50);
-                            pitimage.setFitWidth(50);
-                            grid.add(pitimage, cols,rows);
-                        } else if (tiles.get(i).getIcon() == "-") {
-                            ImageView grassimage = new ImageView(grass);
-                            grassimage.setFitHeight(50);
-                            grassimage.setFitWidth(50);
-                            grid.add(grassimage, cols,rows);
+            System.out.println("GOLDPOS:" + g.getGenerate().getGold().getX() + " " + g.getGenerate().getGold().getY());
+
+
+
+            Image miner = new Image("file:src/miner-pic.jpg");
+            Image gold = new Image("file:src/gold.png");
+            Image grass = new Image("file:src/grass.png");
+            Image beacon = new Image("file:src/beacon.png");
+            Image pit = new Image("file:src/pit.jpg");
+            ImageView minerimage = new ImageView(miner);
+            ImageView goldimage = new ImageView(gold);
+
+            minerimage.setFitHeight(50);
+            minerimage.setFitWidth(50);
+
+            goldimage.setFitHeight(50);
+            goldimage.setFitWidth(50);
+
+            while (grid.getRowConstraints().size() > 0) {
+                grid.getRowConstraints().remove(0);
+            }
+
+            while (grid.getColumnConstraints().size() > 0) {
+                grid.getColumnConstraints().remove(0);
+            }
+
+
+            for (int rows = 0; rows < size; rows++) {
+                for (int cols = 0; cols < size; cols++) {
+                    for (int i = 0; i < tiles.size(); i++) {
+                        if (rows == player.getX() && cols == player.getY()) {
+                            grid.add(minerimage, cols, rows);
+                            this.minerimage = minerimage;
+                            break;
+                        } else if (tiles.get(i).getX() == rows && tiles.get(i).getY() == cols) {
+                            if (tiles.get(i).getIcon() == "B") {
+                                ImageView beaconimage = new ImageView(beacon);
+                                beaconimage.setFitWidth(50);
+                                beaconimage.setFitHeight(50);
+                                grid.add(beaconimage, cols, rows);
+                            } else if (tiles.get(i).getIcon() == "G") {
+                                grid.add(goldimage, cols, rows);
+                            } else if (tiles.get(i).getIcon() == "P") {
+                                ImageView pitimage = new ImageView(pit);
+                                pitimage.setFitHeight(50);
+                                pitimage.setFitWidth(50);
+                                grid.add(pitimage, cols, rows);
+                            } else if (tiles.get(i).getIcon() == "-") {
+                                ImageView grassimage = new ImageView(grass);
+                                grassimage.setFitHeight(50);
+                                grassimage.setFitWidth(50);
+                                grid.add(grassimage, cols, rows);
+                                break;
+                            }
+
                             break;
                         }
 
-                        break;
                     }
-
                 }
             }
-        }
-        grid.setAlignment(Pos.BASELINE_LEFT);
+            grid.setAlignment(Pos.BASELINE_LEFT);
+            grid.setGridLinesVisible(true);
+            inneranchor.setPrefWidth(50 * size + 25);
+            inneranchor.setPrefHeight(50 * size + 25);
+            int scrollsize;
+            scrollsize = 50 * size + 25;
 
-        inneranchor.setPrefWidth(50 * size + 25);
-        inneranchor.setPrefHeight(50 * size + 25);
-        scroll.setPrefWidth(800);
-        scroll.setPrefHeight(500);
-        if (!modes.getText().equals("Slow") && !modes.getText().equals("Fast")){
-            modes.setText("Slow");
-        }
+            if (scrollsize > 600){
+                scroll.setPrefWidth(800);
+                scroll.setPrefHeight(600);
+            }
+            else{
+                scroll.setPrefWidth((scrollsize));
+                scroll.setPrefHeight(scrollsize);
+            }
 
-        int x=0,i;
-        AnimationTimer timer = new TimerMethod();
-        timer.start();
+            scroll.setPannable(true);
+            if (!modes.getText().equals("Slow") && !modes.getText().equals("Fast")) {
+                modes.setText("Slow");
+            }
+
+            int x = 0, i;
+            AnimationTimer timer = new TimerMethod();
+            timer.start();
+        }
+        else{
+            message.setText("Invalid Size");
+        }
 
 
     }
